@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="theme-color" content="#0b1110">
+
+  <title>Bus topology — interactive network lab</title>
+
+  <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+  <div class="shell">
+
+    <header class="topbar">
+
+      <a class="brand" href="#">
+
+        <span class="brand-icon">
+
+          <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+
+            <path d="M3 10h14M6 5v10m8-10v10"
+
+              stroke="currentColor"
+
+              stroke-width="1.6"
+
+              stroke-linecap="round" />
+
+            <circle cx="6" cy="5" r="1.5" fill="currentColor" />
+
+            <circle cx="14" cy="15" r="1.5" fill="currentColor" />
+
+          </svg>
+
+        </span>
+
+        FIELDNOTES <small>/ NETWORK LAB</small>
+
+      </a>
+
+      <div class="top-right">
+
+        <span class="live">
+
+          <i class="dot"></i>
+
+          <span class="live-label">SIMULATION READY</span>
+
+        </span>
+
+        <span>LESSON 04 / 08</span>
+
+      </div>
+
+    </header>
+
+    <section class="intro">
+
+      <div>
+
+        <div class="eyebrow">Networking fundamentals · 04</div>
+
+        <h1>One cable. <span>Every node.</span></h1>
+
+        <p>Explore how data travels through a shared bus network.</p>
+
+      </div>
+
+      <div class="lesson-tag">TOPOLOGY / BUS</div>
+
+    </section>
+
+    <main class="layout">
+
+      <div class="main-col">
+
+        <section class="panel diagram-panel">
+
+          <div class="panel-head">
+
+            <div class="panel-title">
+
+              <span>Network diagram</span>
+
+              <em>LIVE VIEW</em>
+
+            </div>
+
+            <div class="head-right">
+
+              <span class="key"><i></i>BACKBONE</span>
+
+              <span class="key packet"><i></i>PACKET</span>
+
+            </div>
+
+          </div>
+
+          <div class="canvas-wrap">
+
+            <canvas id="simCanvas"
+
+              aria-label="Interactive diagram of computers connected to a shared bus cable"></canvas>
+
+            <div class="canvas-hint">
+
+              CLICK A NODE TO SELECT IT AS THE SENDER
+
+            </div>
+
+          </div>
+
+          <div class="metrics">
+
+            <div class="metric">
+
+              <div class="metric-label">Connected nodes</div>
+
+              <div class="metric-value" id="nodeMetric">04 <small>/ 04</small></div>
+
+            </div>
+
+            <div class="metric">
+
+              <div class="metric-label">Cable length</div>
+
+              <div class="metric-value">100 <small>m</small></div>
+
+            </div>
+
+            <div class="metric">
+
+              <div class="metric-label">Signal type</div>
+
+              <div class="metric-value">Half <small>duplex</small></div>
+
+            </div>
+
+            <div class="metric">
+
+              <div class="metric-label">Network state</div>
+
+              <div class="metric-value" id="networkMetric">Online</div>
+
+            </div>
+
+          </div>
+
+        </section>
+
+        <div class="lower">
+
+          <section class="panel info-card">
+
+            <div class="section-label">How it works</div>
+
+            <div class="fact">
+
+              <span class="fact-icon">↔</span>
+
+              <span>
+
+                Every computer shares one <strong>backbone cable</strong>.
+
+                A sender broadcasts onto the line; all nodes hear the signal,
+
+                but only the matching address accepts it.
+
+              </span>
+
+            </div>
+
+            <div class="pills">
+
+              <span class="pill">SHARED MEDIUM</span>
+
+              <span class="pill">BROADCAST</span>
+
+              <span class="pill">TERMINATORS REQUIRED</span>
+
+            </div>
+
+          </section>
+
+          <section class="panel info-card">
+
+            <div class="section-label">The trade-off</div>
+
+            <div class="fact">
+
+              <span class="fact-icon">!</span>
+
+              <span>
+
+                Simple and inexpensive to wire, but every device depends on
+
+                the same cable. A break can <strong>split the network</strong>
+
+                and stop packets from crossing.
+
+              </span>
+
+            </div>
+
+            <div class="pills">
+
+              <span class="pill good">+ LOW COST</span>
+
+              <span class="pill good">+ SIMPLE SETUP</span>
+
+              <span class="pill bad">− SINGLE CABLE FAILURE</span>
+
+            </div>
+
+          </section>
+
+        </div>
+
+      </div>
+
+      <aside class="side">
+
+        <section class="panel control-card">
+
+          <div class="card-heading">
+
+            <h2>Send a packet</h2>
+
+            <span class="step">01 — 02</span>
+
+          </div>
+
+          <div class="field">
+
+            <label for="srcNode">Source node</label>
+
+            <div class="select-wrap">
+
+              <select id="srcNode">
+
+                <option value="0">James PC · 192.168.1.01</option>
+
+                <option value="1">Jaffier PC · 192.168.1.02</option>
+
+                <option value="2">Izzat PC · 192.168.1.03</option>
+
+                <option value="3">Jerome PC · 192.168.1.04</option>
+
+              </select>
+
+            </div>
+
+          </div>
+
+          <div class="field">
+
+            <label for="destNode">Destination node</label>
+
+            <div class="select-wrap">
+
+              <select id="destNode">
+
+                <option value="0">James PC · 192.168.1.01</option>
+
+                <option value="1" selected>Jaffier PC · 192.168.1.02</option>
+
+                <option value="2">Izzat PC · 192.168.1.03</option>
+
+                <option value="3">Jerome PC · 192.168.1.04</option>
+
+              </select>
+
+            </div>
+
+          </div>
+
+          <div class="route">
+
+            <span id="routeFrom">James PC</span>
+
+            <span class="route-line"></span>
+
+            <span id="routeTo">Jaffier PC</span>
+
+          </div>
+
+          <button id="sendBtn" class="btn btn-primary">
+
+            Transmit packet <span aria-hidden="true">→</span>
+
+          </button>
+
+          <div class="divider"></div>
+
+          <div class="fault-head">
+
+            <strong>Simulate cable fault</strong>
+
+            <button
+
+              id="faultToggle"
+
+              class="toggle"
+
+              role="switch"
+
+              aria-checked="false"
+
+              aria-label="Simulate a break in the main cable">
+
+            </button>
+
+          </div>
+
+          <p class="fault-desc">
+
+            Break the backbone cable and see how the signal is interrupted.
+
+          </p>
+
+          <div id="faultState" class="fault-state">
+
+            <i class="dot"></i>
+
+            CABLE INTACT · NETWORK ONLINE
+
+          </div>
+
+        </section>
+
+        <section class="panel log-card">
+
+          <div class="log-head">
+
+            <h2>Activity log</h2>
+
+            <button id="clearLog" class="clear-btn">CLEAR</button>
+
+          </div>
+
+          <div id="logList" class="log-list" aria-live="polite">
+
+            <div class="empty-log">
+
+              Waiting for network activity…
+
+            </div>
+
+          </div>
+
+        </section>
+
+      </aside>
+
+    </main>
+
+    <footer class="footer">
+
+      <span>FIELDNOTES / INTERACTIVE LEARNING</span>
+
+      <span>Credits: James, Jaffier &amp; Izzat</span>
+
+      <span>ETHERNET · IEEE 802.3 · LEGACY TOPOLOGY</span>
+
+    </footer>
+
+  </div>
+
+<script src="script.js" defer></script>
+
+</body>
+
+</html>
